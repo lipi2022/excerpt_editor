@@ -12,6 +12,10 @@
   align-items: center;
 }
 
+.editor {
+  background-color: #eaeaea;
+}
+
 .footer {
   display: flex;
   flex: 1;
