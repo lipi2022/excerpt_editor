@@ -1,1 +1,0 @@
-web editor for excerpt
