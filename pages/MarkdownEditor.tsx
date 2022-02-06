@@ -7,7 +7,7 @@ import {
   Point,
   createEditor,
   Element as SlateElement,
-  Descendant
+  Descendant,
 } from "slate";
 import { withHistory } from "slate-history";
 import { BulletedListElement } from "./custom-types";
@@ -22,18 +22,18 @@ const SHORTCUTS = {
   "###": "heading-three",
   "####": "heading-four",
   "#####": "heading-five",
-  "######": "heading-six"
+  "######": "heading-six",
 };
 
 const MarkdownEditor = () => {
   const [value, setValue] = useState<Descendant[]>(initialValue);
-  const renderElement = useCallback(props => <Element {...props} />, []);
+  const renderElement = useCallback((props) => <Element {...props} />, []);
   const editor = useMemo(
     () => withShortcuts(withReact(withHistory(createEditor()))),
     []
   );
   return (
-    <Slate editor={editor} value={value} onChange={value => setValue(value)}>
+    <Slate editor={editor} value={value} onChange={(value) => setValue(value)}>
       <Editable
         renderElement={renderElement}
         placeholder="Write some markdown..."
@@ -44,16 +44,16 @@ const MarkdownEditor = () => {
   );
 };
 
-const withShortcuts = editor => {
+const withShortcuts = (editor) => {
   const { deleteBackward, insertText } = editor;
 
-  editor.insertText = text => {
+  editor.insertText = (text) => {
     const { selection } = editor;
 
     if (text === " " && selection && Range.isCollapsed(selection)) {
       const { anchor } = selection;
       const block = Editor.above(editor, {
-        match: n => Editor.isBlock(editor, n)
+        match: (n) => Editor.isBlock(editor, n),
       });
       const path = block ? block[1] : [];
       const start = Editor.start(editor, path);
@@ -65,22 +65,22 @@ const withShortcuts = editor => {
         Transforms.select(editor, range);
         Transforms.delete(editor);
         const newProperties: Partial<SlateElement> = {
-          type
+          type,
         };
         Transforms.setNodes<SlateElement>(editor, newProperties, {
-          match: n => Editor.isBlock(editor, n)
+          match: (n) => Editor.isBlock(editor, n),
         });
 
         if (type === "list-item") {
           const list: BulletedListElement = {
             type: "bulleted-list",
-            children: []
+            children: [],
           };
           Transforms.wrapNodes(editor, list, {
-            match: n =>
+            match: (n) =>
               !Editor.isEditor(n) &&
               SlateElement.isElement(n) &&
-              n.type === "list-item"
+              n.type === "list-item",
           });
         }
 
@@ -96,7 +96,7 @@ const withShortcuts = editor => {
 
     if (selection && Range.isCollapsed(selection)) {
       const match = Editor.above(editor, {
-        match: n => Editor.isBlock(editor, n)
+        match: (n) => Editor.isBlock(editor, n),
       });
 
       if (match) {
@@ -110,17 +110,17 @@ const withShortcuts = editor => {
           Point.equals(selection.anchor, start)
         ) {
           const newProperties: Partial<SlateElement> = {
-            type: "paragraph"
+            type: "paragraph",
           };
           Transforms.setNodes(editor, newProperties);
 
           if (block.type === "list-item") {
             Transforms.unwrapNodes(editor, {
-              match: n =>
+              match: (n) =>
                 !Editor.isEditor(n) &&
                 SlateElement.isElement(n) &&
                 n.type === "bulleted-list",
-              split: true
+              split: true,
             });
           }
 
@@ -165,37 +165,34 @@ const initialValue: Descendant[] = [
     type: "paragraph",
     children: [
       {
-        text:
-          'The editor gives you full control over the logic you can add. For example, it\'s fairly common to want to add markdown-like shortcuts to editors. So that, when you start a line with "> " you get a blockquote that looks like this:'
-      }
-    ]
+        text: 'The editor gives you full control over the logic you can add. For example, it\'s fairly common to want to add markdown-like shortcuts to editors. So that, when you start a line with "> " you get a blockquote that looks like this:',
+      },
+    ],
   },
   {
     type: "block-quote",
-    children: [{ text: "A wise quote." }]
+    children: [{ text: "A wise quote." }],
   },
   {
     type: "paragraph",
     children: [
       {
-        text:
-          'Order when you start a line with "## " you get a level-two heading, like this:'
-      }
-    ]
+        text: 'Order when you start a line with "## " you get a level-two heading, like this:',
+      },
+    ],
   },
   {
     type: "heading-two",
-    children: [{ text: "Try it out!" }]
+    children: [{ text: "Try it out!" }],
   },
   {
     type: "paragraph",
     children: [
       {
-        text:
-          'Try it out for yourself! Try starting a new line with ">", "-", or "#"s.'
-      }
-    ]
-  }
+        text: 'Try it out for yourself! Try starting a new line with ">", "-", or "#"s.',
+      },
+    ],
+  },
 ];
 
 export default MarkdownEditor;
