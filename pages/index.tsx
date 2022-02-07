@@ -22,9 +22,9 @@ const Home: NextPage = () => {
             <p className={styles.description}>Login</p>
           </a>
         </Link>
-        <div className={styles.editor}>
+        {/* <div className={styles.editor}>
           <MarkdownEditor />
-        </div>
+        </div> */}
       </main>
 
       <footer className={styles.footer}>Powered by Me</footer>
