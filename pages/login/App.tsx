@@ -15,9 +15,9 @@ import {
   useColorModeValue as mode,
 } from "@chakra-ui/react";
 import * as React from "react";
-import { Logo } from "./Logo";
-import { OAuthButtonGroup } from "./OAuthButtonGroup";
-import { PasswordField } from "./PasswordField";
+import { Logo } from "../../components/Logo";
+import { OAuthButtonGroup } from "../../components/OAuth/OAuthButtonGroup";
+import { PasswordField } from "../../components/OAuth/PasswordField";
 
 const App = () => (
   <Box
