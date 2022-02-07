@@ -1,8 +1,9 @@
 import type, { NextPage } from "next";
 import Head from "next/head";
+import Link from "next/link";
 import Image from "next/image";
 import styles from "../styles/Home.module.css";
-import MarkdownEditor from "./MarkdownEditor";
+import MarkdownEditor from "./editor/MarkdownEditor";
 
 const Home: NextPage = () => {
   return (
@@ -16,10 +17,11 @@ const Home: NextPage = () => {
       <main className={styles.main}>
         <h1 className={styles.title}>Welcome to excerpt editor</h1>
 
-        <p className={styles.description}>
-          Get started by editing{" "}
-          <code className={styles.code}>pages/index.tsx</code>
-        </p>
+        <Link href="/login/App" passHref>
+          <a>
+            <p className={styles.description}>Login</p>
+          </a>
+        </Link>
         <div className={styles.editor}>
           <MarkdownEditor />
         </div>
