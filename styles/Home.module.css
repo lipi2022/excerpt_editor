@@ -12,6 +12,10 @@
   align-items: center;
 }
 
+.login {
+  width: 50vh;
+}
+
 .editor {
   background-color: #eaeaea;
 }

@@ -55,9 +55,9 @@ const App = () => {
     }
   };
 
-  useEffect(() => {
-    console.log("useeffect");
-  }, []);
+  // useEffect(() => {
+  //   console.log("useeffect");
+  // }, []);
 
   return (
     <Box
