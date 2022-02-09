@@ -10,7 +10,7 @@ import {
   Descendant,
 } from "slate";
 import { withHistory } from "slate-history";
-import { BulletedListElement } from "./custom-types";
+import { BulletedListElement } from "../../components/editor/custom-types";
 
 const SHORTCUTS = {
   "*": "list-item",
@@ -25,7 +25,7 @@ const SHORTCUTS = {
   "######": "heading-six",
 };
 
-const MarkdownEditor = () => {
+const Markdown = () => {
   const [value, setValue] = useState<Descendant[]>(initialValue);
   const renderElement = useCallback((props) => <Element {...props} />, []);
   const editor = useMemo(
@@ -195,4 +195,4 @@ const initialValue: Descendant[] = [
   },
 ];
 
-export default MarkdownEditor;
+export default Markdown;
