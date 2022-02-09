@@ -1,7 +1,8 @@
 import { Button, ButtonGroup, VisuallyHidden } from "@chakra-ui/react";
 import { GitHubIcon, GoogleIcon, TwitterIcon } from "../ProviderIcons";
 import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
-import { app } from "./googleAuth";
+import { app } from "../../lib/auth/googleAuth";
+import { AuthProps } from "../../lib/auth/authProps";
 
 const providers = [
   { name: "Google", icon: <GoogleIcon boxSize="6" /> },
@@ -9,12 +10,12 @@ const providers = [
   { name: "GitHub", icon: <GitHubIcon boxSize="6" /> },
 ];
 
-const handleAuth = (name) => {
-  if (name.name === "Google") {
+const handleAuth = (auth: AuthProps, name) => {
+  if (name === "Google") {
     // object.name why?
-    const auth = getAuth(app);
+    // const auth = getAuth(app);
     const provider = new GoogleAuthProvider();
-    signInWithPopup(auth, provider)
+    signInWithPopup(auth.auth, provider)
       .then((result) => {
         // This gives you a Google Access Token. You can use it to access the Google API.
         const credential = GoogleAuthProvider.credentialFromResult(result);
@@ -37,10 +38,10 @@ const handleAuth = (name) => {
   }
 };
 
-export const OAuthButtonGroup = () => (
+export const OAuthButtons: React.FC<AuthProps> = (auth: AuthProps) => (
   <ButtonGroup variant="outline" spacing="4" width="full">
     {providers.map(({ name, icon }) => (
-      <Button key={name} isFullWidth onClick={() => handleAuth({ name })}>
+      <Button key={name} isFullWidth onClick={() => handleAuth(auth, name)}>
         <VisuallyHidden>Sign in with {name}</VisuallyHidden>
         {icon}
       </Button>

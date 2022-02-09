@@ -17,9 +17,9 @@ import {
 import * as React from "react";
 import { useEffect, useState } from "react";
 import { Logo } from "../../components/Logo";
-import { OAuthButtonGroup } from "../../components/OAuth/OAuthButtonGroup";
-import { PasswordField } from "../../components/OAuth/PasswordField";
-import { app } from "../../components/OAuth/googleAuth";
+import { OAuthButtons } from "../../components/auth/OAuthButtons";
+import { PasswordField } from "../../components/auth/PasswordField";
+import { app } from "../../lib/auth/googleAuth";
 import { getAuth } from "firebase/auth";
 
 const App = () => {
@@ -90,7 +90,7 @@ const App = () => {
                   </Text>
                   <Divider />
                 </HStack>
-                <OAuthButtonGroup />
+                <OAuthButtons auth={auth} />
               </Stack>
             </Stack>
           </Box>
