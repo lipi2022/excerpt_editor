@@ -22,7 +22,7 @@ const Home: NextPage = () => {
         router.push("/LandingPage");
       }
     });
-  }, []);
+  }, [router]);
 
   return null;
 };

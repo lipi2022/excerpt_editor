@@ -1,40 +1,30 @@
 import {
   Box,
   Container,
-  Stack,
+  HStack,
   useBreakpointValue,
   useColorModeValue as mode,
 } from "@chakra-ui/react";
 import * as React from "react";
+import styles from "../../styles/Home.module.css";
 import Markdown from "../../components/editor/Markdown";
 
 const EditorPage = () => {
   return (
-    <Box
-      bg={mode(
-        useBreakpointValue({ base: "white", sm: "gray.100" }),
-        "gray.800"
-      )}
-    >
-      <Container
-        maxW="lg"
-        py={{ base: "12", md: "24" }}
-        px={{ base: "0", sm: "8" }}
-      >
-        <Stack spacing="8">
+    <Box minHeight="100vh" backgroundColor="gray.100">
+      <Container pt="138px">
+        <HStack spacing="8">
           <Box
-            py={{ base: "0", sm: "8" }}
-            px={{ base: "4", sm: "10" }}
-            bg={mode(
-              "white",
-              useBreakpointValue({ base: "inherit", sm: "gray.700" })
-            )}
+            padding={{ base: "28px" }}
+            backgroundColor="white"
             boxShadow={{ base: "none", sm: "md" }}
             borderRadius={{ base: "none", sm: "xl" }}
+            minW="600px"
+            minHeight="300px"
           >
             <Markdown></Markdown>
           </Box>
-        </Stack>
+        </HStack>
       </Container>
     </Box>
   );
