@@ -4,15 +4,14 @@ import styles from "../styles/Home.module.css";
 import { app } from "../lib/auth/googleAuth";
 import { OAuthButtons } from "../components/auth/OAuthButtons";
 import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import { useRouter } from "next/router";
 
 const LandingPage: NextPage = () => {
+  const router = useRouter();
+
   const handleAuth = (name) => {
     if (name === "Google") {
-      let auth = getAuth();
-      if (auth.currentUser !== null) {
-        return;
-      }
-      auth = getAuth(app);
+      const auth = getAuth(app);
       const provider = new GoogleAuthProvider();
       signInWithPopup(auth, provider)
         .then((result) => {
@@ -22,6 +21,9 @@ const LandingPage: NextPage = () => {
           // The signed-in user info.
           const user = result.user;
           // ...
+
+          // redirectu to editor page
+          router.push("/editor/EditorPage");
         })
         .catch((error) => {
           // Handle Errors here.
@@ -37,21 +39,23 @@ const LandingPage: NextPage = () => {
   };
 
   return (
-    <div className={styles.container}>
-      <Head>
-        <title>Excerpt Editor</title>
-        <meta name="description" content="excerpt editor" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
+    <>
+      <div className={styles.container}>
+        <Head>
+          <title>Excerpt Editor</title>
+          <meta name="description" content="excerpt editor" />
+          <link rel="icon" href="/favicon.ico" />
+        </Head>
 
-      <main className={styles.main}>
-        <h1 className={styles.title}>Welcome to excerpt editor</h1>
-        <div className={styles.login}>
-          <OAuthButtons handleAuth={handleAuth} />
-        </div>
-      </main>
-      <footer className={styles.footer}>Powered by Me</footer>
-    </div>
+        <main className={styles.main}>
+          <h1 className={styles.title}>Welcome to excerpt editor</h1>
+          <div className={styles.login}>
+            <OAuthButtons handleAuth={handleAuth} />
+          </div>
+        </main>
+        <footer className={styles.footer}>Powered by Me</footer>
+      </div>
+    </>
   );
 };
 

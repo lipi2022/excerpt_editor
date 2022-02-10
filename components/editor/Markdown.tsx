@@ -10,7 +10,15 @@ import {
   Descendant,
 } from "slate";
 import { withHistory } from "slate-history";
-import { BulletedListElement } from "../../components/editor/custom-types";
+import { BulletedListElement } from "./custom-types";
+import {
+  Heading,
+  List,
+  UnorderedList,
+  OrderedList,
+  ListItem,
+  Text,
+} from "@chakra-ui/react";
 
 const SHORTCUTS = {
   "*": "list-item",
@@ -138,25 +146,64 @@ const withShortcuts = (editor) => {
 const Element = ({ attributes, children, element }) => {
   switch (element.type) {
     case "block-quote":
-      return <blockquote {...attributes}>{children}</blockquote>;
+      // todo: should define block quote attributes
+      return (
+        <Text
+          backgroundColor="gray.50"
+          border="1px"
+          borderColor="gray.100"
+          p="12px"
+          {...attributes}
+        >
+          {children}
+        </Text>
+      );
     case "bulleted-list":
-      return <ul {...attributes}>{children}</ul>;
+      return (
+        <UnorderedList {...attributes}>
+          <ListItem>{children}</ListItem>
+        </UnorderedList>
+      );
     case "heading-one":
-      return <h1 {...attributes}>{children}</h1>;
+      return (
+        <Heading as="h1" {...attributes}>
+          {children}
+        </Heading>
+      );
     case "heading-two":
-      return <h2 {...attributes}>{children}</h2>;
+      return (
+        <Heading as="h2" {...attributes}>
+          {children}
+        </Heading>
+      );
     case "heading-three":
-      return <h3 {...attributes}>{children}</h3>;
+      return (
+        <Heading as="h3" {...attributes}>
+          {children}
+        </Heading>
+      );
     case "heading-four":
-      return <h4 {...attributes}>{children}</h4>;
+      return (
+        <Heading as="h4" {...attributes}>
+          {children}
+        </Heading>
+      );
     case "heading-five":
-      return <h5 {...attributes}>{children}</h5>;
+      return (
+        <Heading as="h5" {...attributes}>
+          {children}
+        </Heading>
+      );
     case "heading-six":
-      return <h6 {...attributes}>{children}</h6>;
+      return (
+        <Heading as="h6" {...attributes}>
+          {children}
+        </Heading>
+      );
     case "list-item":
-      return <li {...attributes}>{children}</li>;
+      return <ListItem {...attributes}>{children}</ListItem>;
     default:
-      return <p {...attributes}>{children}</p>;
+      return <Text {...attributes}>{children}</Text>;
   }
 };
 
@@ -165,31 +212,7 @@ const initialValue: Descendant[] = [
     type: "paragraph",
     children: [
       {
-        text: 'The editor gives you full control over the logic you can add. For example, it\'s fairly common to want to add markdown-like shortcuts to editors. So that, when you start a line with "> " you get a blockquote that looks like this:',
-      },
-    ],
-  },
-  {
-    type: "block-quote",
-    children: [{ text: "A wise quote." }],
-  },
-  {
-    type: "paragraph",
-    children: [
-      {
-        text: 'Order when you start a line with "## " you get a level-two heading, like this:',
-      },
-    ],
-  },
-  {
-    type: "heading-two",
-    children: [{ text: "Try it out!" }],
-  },
-  {
-    type: "paragraph",
-    children: [
-      {
-        text: 'Try it out for yourself! Try starting a new line with ">", "-", or "#"s.',
+        text: "",
       },
     ],
   },

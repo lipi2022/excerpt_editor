@@ -1,10 +1,7 @@
 import type, { NextPage } from "next";
-import Head from "next/head";
-import styles from "../styles/Home.module.css";
 import { app } from "../lib/auth/googleAuth";
-import { OAuthButtons } from "../components/auth/OAuthButtons";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useRouter } from "next/router";
 
 const Home: NextPage = () => {
@@ -24,7 +21,7 @@ const Home: NextPage = () => {
     });
   }, [router]);
 
-  return null;
+  return <></>;
 };
 
 export default Home;
