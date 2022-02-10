@@ -12,7 +12,7 @@ const EditorPage = () => {
   return (
     <Box
       bg={mode(
-        useBreakpointValue({ base: "white", sm: "gray.50" }),
+        useBreakpointValue({ base: "white", sm: "gray.100" }),
         "gray.800"
       )}
     >
