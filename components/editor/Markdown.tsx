@@ -13,12 +13,27 @@ import { withHistory } from "slate-history";
 import { BulletedListElement } from "./custom-types";
 import {
   Heading,
+  Box,
   List,
+  HStack,
+  VStack,
   UnorderedList,
   OrderedList,
   ListItem,
   Text,
+  Select,
+  Divider,
 } from "@chakra-ui/react";
+import {
+  BlockquoteLeft,
+  ListOl,
+  ListUl,
+  TypeBold,
+  TypeItalic,
+  CodeSlash,
+  Link45deg,
+  CardImage,
+} from "@chakra-icons/bootstrap";
 
 const SHORTCUTS = {
   "*": "list-item",
@@ -36,19 +51,65 @@ const SHORTCUTS = {
 const Markdown = () => {
   const [value, setValue] = useState<Descendant[]>(initialValue);
   const renderElement = useCallback((props) => <Element {...props} />, []);
-  const editor = useMemo(
-    () => withShortcuts(withReact(withHistory(createEditor()))),
-    []
+
+  const [editor] = useState(() =>
+    withShortcuts(withReact(withHistory(createEditor())))
   );
+  // const editor = useMemo(
+  //   () => withShortcuts(withReact(withHistory(createEditor()))),
+  //   []
+  // );
+
   return (
-    <Slate editor={editor} value={value} onChange={(value) => setValue(value)}>
-      <Editable
-        renderElement={renderElement}
-        placeholder="Write some markdown..."
-        spellCheck
-        autoFocus
-      />
-    </Slate>
+    <>
+      <Box backgroundColor="white">
+        <Box pb={2}>
+          <HStack
+            backgroundColor="gray.50"
+            pl={4}
+            pb={2}
+            pt={2}
+            color="gray.400"
+          >
+            <Select placeholder="Paragraph" width="110px" variant="unstyled">
+              <option value="Paragraph">Paragraph</option>
+              <option value="Heading 1">Heading 1</option>
+              <option value="Heading 2">Heading 2</option>
+              <option value="Heading 3">Heading 3</option>
+              <option value="Heading 4">Heading 4</option>
+              <option value="Heading 5">Heading 5</option>
+            </Select>
+            <Divider orientation="vertical"></Divider>
+            <TypeBold boxSize="20px" />
+            <TypeItalic boxSize="20px" />
+            <Divider orientation="vertical"></Divider>
+            <BlockquoteLeft boxSize="20px" />
+            <Divider orientation="vertical"></Divider>
+            <ListOl boxSize="20px" />
+            <ListUl boxSize="20px" />
+            <Divider orientation="vertical"></Divider>
+            <CodeSlash boxSize="20px" />
+            <Divider orientation="vertical"></Divider>
+            <Link45deg boxSize="20px" />
+            <CardImage boxSize="20px" />
+          </HStack>
+        </Box>
+        <Box pl={4}>
+          <Slate
+            editor={editor}
+            value={value}
+            onChange={(value) => setValue(value)}
+          >
+            <Editable
+              renderElement={renderElement}
+              placeholder="Write some markdown..."
+              spellCheck
+              autoFocus
+            />
+          </Slate>
+        </Box>
+      </Box>
+    </>
   );
 };
 

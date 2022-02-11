@@ -10,19 +10,19 @@ import Markdown from "../../components/editor/Markdown";
 const EditorPage = () => {
   return (
     <>
-      <Box minHeight="100vh" backgroundColor="gray.100">
+      <Box minHeight="100vh" backgroundColor="gray.200">
         <Container pt={148} maxW="container.sm">
-          <Stack spacing="8">
-            <Box
-              padding={{ base: "28px" }}
-              backgroundColor="white"
-              boxShadow={{ base: "none", sm: "md" }}
-              borderRadius={{ base: "none", sm: "xl" }}
-              minHeight={250}
-            >
-              <Markdown />
-            </Box>
-          </Stack>
+          <Box
+            // padding={{ base: "28px" }}
+            backgroundColor="white"
+            // borderColor="gray.700"
+            // border="1px"
+            boxShadow={{ base: "none", sm: "md" }}
+            borderRadius={{ base: "none", sm: "md" }}
+            minHeight={250}
+          >
+            <Markdown />
+          </Box>
         </Container>
       </Box>
     </>

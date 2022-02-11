@@ -65,6 +65,11 @@
     "@babel/helper-validator-identifier" "^7.16.7"
     to-fast-properties "^2.0.0"
 
+"@chakra-icons/bootstrap@^1.1.1":
+  version "1.1.1"
+  resolved "https://repo.huaweicloud.com/repository/npm/@chakra-icons/bootstrap/-/bootstrap-1.1.1.tgz#32f9c3abbf4d6c34e9ab98763508d920afd3ee26"
+  integrity sha512-s/xFnr+etJw2Y8VWyvxBgCE5BA2j56rFKYZDEFwqn5a0wu2oJK9vqOzEyOmHZMtWa3rYQ+NXmW1XrAgCPpDbSw==
+
 "@chakra-ui/accordion@1.4.6":
   version "1.4.6"
   resolved "https://registry.yarnpkg.com/@chakra-ui/accordion/-/accordion-1.4.6.tgz#87137298e1a3d5505c600787d8ae1b96e3e3e207"
@@ -225,6 +230,14 @@
   integrity sha512-G2rB5DeeNM4VlsUv49OYGyRJhr6fKkSRDskOHE9yV9QmaIatnYmGZCnvrSALe1EmzJYD0g9wessEyPHId5KtaQ==
   dependencies:
     "@chakra-ui/utils" "1.10.2"
+
+"@chakra-ui/icons@^1.1.5":
+  version "1.1.5"
+  resolved "https://repo.huaweicloud.com/repository/npm/@chakra-ui/icons/-/icons-1.1.5.tgz#ae727d1dab116d59d69055251a20fd4c4e7318f7"
+  integrity sha512-UjTexT3SXCNu6XbAjyHFTkYAMSq5MFTf1b5WSmvI6Bt4PZ5hYXGKGeFVaZi4jH58WCWD/HKsEq+MrHBDaaeUnA==
+  dependencies:
+    "@chakra-ui/icon" "2.0.3"
+    "@types/react" "^17.0.15"
 
 "@chakra-ui/image@1.1.5":
   version "1.1.5"
@@ -1360,7 +1373,7 @@
   resolved "https://repo.huaweicloud.com/repository/npm/@types/prop-types/-/prop-types-15.7.4.tgz"
   integrity sha512-rZ5drC/jWjrArrS8BR6SIr4cWpW09RNTYt9AMZo3Jwwif+iacXAqgVjm0B0Bv/S1jhDXKHqRVNCbACkJ89RAnQ==
 
-"@types/react@17.0.39":
+"@types/react@17.0.39", "@types/react@^17.0.15":
   version "17.0.39"
   resolved "https://repo.huaweicloud.com/repository/npm/@types/react/-/react-17.0.39.tgz"
   integrity sha512-UVavlfAxDd/AgAacMa60Azl7ygyQNRwC/DsHZmKgNvPmRR5p70AJ5Q9EAmL2NWOJmeV+vVUI4IAP7GZrN8h8Ug==
@@ -3010,6 +3023,11 @@ react-focus-lock@2.5.2:
     react-clientside-effect "^1.2.5"
     use-callback-ref "^1.2.5"
     use-sidecar "^1.0.5"
+
+react-hook-form@^7.26.1:
+  version "7.26.1"
+  resolved "https://repo.huaweicloud.com/repository/npm/react-hook-form/-/react-hook-form-7.26.1.tgz#8f5c0aa81a452f5ebcb6a2d7253800011e735b1c"
+  integrity sha512-/Qw/7IsCCVfYSGryJAMcouEpIDgWZJPeHR15J0IFSgo1BgofcfnY+AeUDcYD1E3yzzXYpR7NHyJehhkBKvjdMg==
 
 react-icons@^4.3.1:
   version "4.3.1"
