@@ -23,16 +23,20 @@ import {
   Text,
   Select,
   Divider,
+  IconButton,
+  Button,
+  Stack,
+  Center,
 } from "@chakra-ui/react";
 import {
   BlockquoteLeft,
-  ListOl,
   ListUl,
   TypeBold,
   TypeItalic,
   CodeSlash,
   Link45deg,
   CardImage,
+  ListOl,
 } from "@chakra-icons/bootstrap";
 
 const SHORTCUTS = {
@@ -69,9 +73,17 @@ const Markdown = () => {
             pl={4}
             pb={2}
             pt={2}
-            color="gray.400"
+            m={0}
+            spacing={4}
+            minH={12}
           >
-            <Select placeholder="Paragraph" width="110px" variant="unstyled">
+            <Select
+              placeholder="Paragraph"
+              width="110px"
+              variant="unstyled"
+              color="#A0AEC0"
+              _hover={{ color: "gray.800" }}
+            >
               <option value="Paragraph">Paragraph</option>
               <option value="Heading 1">Heading 1</option>
               <option value="Heading 2">Heading 2</option>
@@ -79,19 +91,57 @@ const Markdown = () => {
               <option value="Heading 4">Heading 4</option>
               <option value="Heading 5">Heading 5</option>
             </Select>
-            <Divider orientation="vertical"></Divider>
-            <TypeBold boxSize="20px" />
-            <TypeItalic boxSize="20px" />
-            <Divider orientation="vertical"></Divider>
-            <BlockquoteLeft boxSize="20px" />
-            <Divider orientation="vertical"></Divider>
-            <ListOl boxSize="20px" />
-            <ListUl boxSize="20px" />
-            <Divider orientation="vertical"></Divider>
-            <CodeSlash boxSize="20px" />
-            <Divider orientation="vertical"></Divider>
-            <Link45deg boxSize="20px" />
-            <CardImage boxSize="20px" />
+            <Center height="25px">
+              <Divider orientation="vertical"></Divider>
+            </Center>
+            <TypeBold
+              _hover={{ color: "gray.800" }}
+              color="#A0AEC0"
+              boxSize="22px"
+            />
+            <TypeItalic
+              _hover={{ color: "gray.800" }}
+              color="#A0AEC0"
+              boxSize="22px"
+            />
+            <Center height="25px">
+              <Divider orientation="vertical"></Divider>
+            </Center>
+            <BlockquoteLeft
+              _hover={{ color: "gray.800" }}
+              color="#A0AEC0"
+              boxSize="22px"
+            />
+            <ListOl
+              _hover={{ fill: "gray.800" }}
+              fill="#A0AEC0"
+              boxSize="22px"
+            />
+            <ListUl
+              _hover={{ color: "gray.800" }}
+              color="#A0AEC0"
+              boxSize="22px"
+            />
+            <Center height="25px">
+              <Divider orientation="vertical"></Divider>
+            </Center>
+            <CodeSlash
+              _hover={{ color: "gray.800" }}
+              color="#A0AEC0"
+              boxSize="22px"
+            />
+
+            <Link45deg
+              _hover={{ fill: "gray.800" }}
+              fill="#A0AEC0"
+              boxSize="22px"
+            />
+
+            <CardImage
+              _hover={{ fill: "gray.800" }}
+              fill="#A0AEC0"
+              boxSize="22px"
+            />
           </HStack>
         </Box>
         <Box pl={4}>
