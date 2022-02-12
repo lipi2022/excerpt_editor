@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useMemo } from "react";
-import { Slate, Editable, withReact } from "slate-react";
+import { Slate, Editable, withReact, useSlate } from "slate-react";
 import {
   Editor,
   Transforms,
@@ -23,11 +23,14 @@ import {
   Text,
   Select,
   Divider,
-  IconButton,
   Button,
+  Icon,
   Stack,
   Center,
   Container,
+  useSlider,
+  IconButton,
+  ButtonGroup,
 } from "@chakra-ui/react";
 import {
   BlockquoteLeft,
@@ -56,10 +59,42 @@ const SHORTCUTS = {
   "######": "heading-six",
 };
 
+// const BlockButton = ({ format, icon }) => {
+//   const editor = useSlate();
+//   return (
+//     <TypeBold
+//       active={isBlockActive(editor, format)}
+//       onMouseDown={(event) => {
+//         event.preventDefault();
+//         toggleBlock(editor, format);
+//       }}
+//     ></TypeBold>
+//   );
+// };
+
+const ToolbarClick = (format_name: string) => {
+  console.log(format_name);
+};
+
+const isMarkActive = (editor, format) => {
+  const marks = Editor.marks(editor);
+  return marks ? marks[format] === true : false;
+};
+
+const toggleMark = (editor, format) => {
+  const isActive = isMarkActive(editor, format);
+
+  if (isActive) {
+    Editor.removeMark(editor, format);
+  } else {
+    Editor.addMark(editor, format, true);
+  }
+};
+
 const Markdown = () => {
   const [value, setValue] = useState<Descendant[]>(initialValue);
   const renderElement = useCallback((props) => <Element {...props} />, []);
-  const [expand, setExpand] = useState(true);
+  const [expand, setExpand] = useState(false);
 
   const [editor] = useState(() =>
     withShortcuts(withReact(withHistory(createEditor())))
@@ -68,6 +103,212 @@ const Markdown = () => {
   //   () => withShortcuts(withReact(withHistory(createEditor()))),
   //   []
   // );
+
+  const SelectDropdown = () => {
+    return (
+      <Select
+        width="110px"
+        variant="unstyled"
+        color="gray.400"
+        _hover={{ color: "gray.800" }}
+        onChange={(e) => ToolbarClick(e.target.value)}
+      >
+        <option value="Paragraph">Paragraph</option>
+        <option value="Heading 1">Heading 1</option>
+        <option value="Heading 2">Heading 2</option>
+        <option value="Heading 3">Heading 3</option>
+        <option value="Heading 4">Heading 4</option>
+        <option value="Heading 5">Heading 5</option>
+      </Select>
+    );
+  };
+
+  const BoldButton = () => {
+    return (
+      <IconButton
+        aria-label="format"
+        isActive={isMarkActive(editor, "Bold")}
+        onMouseDown={(event) => {
+          event.preventDefault();
+          toggleMark(editor, "Bold");
+        }}
+        icon={<TypeBold boxSize="22px"></TypeBold>}
+        _active={{ color: "gray.800" }}
+        color="gray.400"
+      ></IconButton>
+    );
+  };
+
+  const ItalicButton = () => {
+    return (
+      <IconButton
+        aria-label="format"
+        isActive={isMarkActive(editor, "Italic")}
+        onMouseDown={(event) => {
+          event.preventDefault();
+          toggleMark(editor, "Italic");
+        }}
+        icon={<TypeItalic boxSize="22px"></TypeItalic>}
+        _active={{ color: "gray.800" }}
+        color="gray.400"
+      ></IconButton>
+    );
+  };
+
+  const BlockquoteLeftButton = () => {
+    return (
+      <IconButton
+        aria-label="format"
+        isActive={isMarkActive(editor, "block_quote_left")}
+        onMouseDown={(event) => {
+          event.preventDefault();
+          toggleMark(editor, "block_quote_left");
+        }}
+        icon={<BlockquoteLeft boxSize="22px"></BlockquoteLeft>}
+        _active={{ color: "gray.800" }}
+        color="gray.400"
+      ></IconButton>
+    );
+  };
+
+  const ListOlButton = () => {
+    return (
+      <IconButton
+        aria-label="format"
+        isActive={isMarkActive(editor, "list_ol")}
+        onMouseDown={(event) => {
+          event.preventDefault();
+          toggleMark(editor, "list_ol");
+        }}
+        icon={<BlockquoteLeft boxSize="22px"></BlockquoteLeft>}
+        color="gray.400"
+        _active={{ color: "gray.800" }}
+      ></IconButton>
+    );
+  };
+  const ListUlButton = () => {
+    return (
+      <IconButton
+        aria-label="format"
+        isActive={isMarkActive(editor, "list_ul")}
+        onMouseDown={(event) => {
+          event.preventDefault();
+          toggleMark(editor, "list_ul");
+        }}
+        icon={<BlockquoteLeft boxSize="22px"></BlockquoteLeft>}
+        color="gray.400"
+        _active={{ color: "gray.800" }}
+      ></IconButton>
+    );
+  };
+  const CodeSlashButton = () => {
+    return (
+      <IconButton
+        aria-label="format"
+        isActive={isMarkActive(editor, "code_slash")}
+        onMouseDown={(event) => {
+          event.preventDefault();
+          toggleMark(editor, "code_slash");
+        }}
+        icon={<CodeSlash boxSize="22px"></CodeSlash>}
+        color="gray.400"
+        _active={{ color: "gray.800" }}
+      ></IconButton>
+    );
+  };
+  const Link45degButton = () => {
+    return (
+      <IconButton
+        aria-label="format"
+        isActive={isMarkActive(editor, "link45deg")}
+        onMouseDown={(event) => {
+          event.preventDefault();
+          toggleMark(editor, "link45deg");
+        }}
+        icon={
+          <Link45deg
+            fill="gray.400"
+            // _hover={{ fill: "gray.800" }}
+            boxSize="22px"
+          ></Link45deg>
+        }
+        color="gray.400"
+        _active={{ color: "gray.800" }}
+      ></IconButton>
+    );
+  };
+  const CardImageButton = () => {
+    return (
+      <IconButton
+        aria-label="format"
+        isActive={isMarkActive(editor, "card_image")}
+        onMouseDown={(event) => {
+          event.preventDefault();
+          toggleMark(editor, "card_image");
+        }}
+        icon={
+          <CardImage
+            fill="gray.400"
+            // _hover={{ fill: "gray.800" }}
+            boxSize="22px"
+          ></CardImage>
+        }
+        color="gray.400"
+        _active={{ color: "gray.800" }}
+      ></IconButton>
+    );
+  };
+  const CloudUploadButton = () => {
+    return (
+      <IconButton
+        aria-label="format"
+        isActive={isMarkActive(editor, "cloud_upload")}
+        onMouseDown={(event) => {
+          event.preventDefault();
+          toggleMark(editor, "cloud_upload");
+        }}
+        icon={<CloudUpload fill="gray.400" boxSize="22px"></CloudUpload>}
+        color="gray.400"
+        // _active={{ color: "gray.800" }}
+      ></IconButton>
+    );
+  };
+
+  type AngleProps = {
+    expand_state: boolean;
+  };
+
+  const AngleContractButton: React.FC<AngleProps> = ({ expand_state }) => {
+    return (
+      <IconButton
+        aria-label="format"
+        isActive={isMarkActive(editor, "angle_contract")}
+        onMouseDown={(event) => {
+          event.preventDefault();
+          toggleMark(editor, "angle_contract");
+        }}
+        onClick={() => setExpand(expand_state)}
+        icon={<ArrowsAngleContract boxSize="22px"></ArrowsAngleContract>}
+        color="gray.400"
+      ></IconButton>
+    );
+  };
+
+  const AngleExpandButton: React.FC<AngleProps> = ({ expand_state }) => {
+    return (
+      <IconButton
+        aria-label="format"
+        isActive={isMarkActive(editor, "angle_expand")}
+        onMouseDown={(event) => {
+          event.preventDefault();
+          toggleMark(editor, "angle_expand");
+        }}
+        onClick={() => setExpand(expand_state)}
+        icon={<ArrowsAngleExpand boxSize="22px"></ArrowsAngleExpand>}
+        color="gray.400"
+      ></IconButton>
+    );
+  };
 
   return (
     <>
@@ -86,102 +327,48 @@ const Markdown = () => {
             borderRadius={{ base: "none", sm: "md" }}
           >
             <Box pb={2}>
-              <HStack
+              <ButtonGroup
                 backgroundColor="gray.50"
+                size="sm"
+                // isAttached
                 pl={4}
                 pb={2}
                 pt={2}
-                m={0}
-                spacing={4}
                 minH={12}
+                width={expand ? 800 : 590}
+                variant="ghost"
+                spacing={2}
               >
-                <Select
-                  placeholder="Paragraph"
-                  width="110px"
-                  variant="unstyled"
-                  color="#A0AEC0"
-                  _hover={{ color: "gray.800" }}
-                >
-                  <option value="Paragraph">Paragraph</option>
-                  <option value="Heading 1">Heading 1</option>
-                  <option value="Heading 2">Heading 2</option>
-                  <option value="Heading 3">Heading 3</option>
-                  <option value="Heading 4">Heading 4</option>
-                  <option value="Heading 5">Heading 5</option>
-                </Select>
+                <SelectDropdown></SelectDropdown>
+
                 <Center height="25px">
                   <Divider orientation="vertical"></Divider>
                 </Center>
-                <TypeBold
-                  _hover={{ color: "gray.800" }}
-                  color="#A0AEC0"
-                  boxSize="22px"
-                />
-                <TypeItalic
-                  _hover={{ color: "gray.800" }}
-                  color="#A0AEC0"
-                  boxSize="22px"
-                />
+                <BoldButton></BoldButton>
+                <ItalicButton></ItalicButton>
+
                 <Center height="25px">
                   <Divider orientation="vertical"></Divider>
                 </Center>
-                <BlockquoteLeft
-                  _hover={{ color: "gray.800" }}
-                  color="#A0AEC0"
-                  boxSize="22px"
-                />
-                <ListOl
-                  _hover={{ fill: "gray.800" }}
-                  fill="#A0AEC0"
-                  boxSize="22px"
-                />
-                <ListUl
-                  _hover={{ color: "gray.800" }}
-                  color="#A0AEC0"
-                  boxSize="22px"
-                />
+                <BlockquoteLeftButton />
+                <ListOlButton />
+                <ListUlButton />
                 <Center height="25px">
                   <Divider orientation="vertical"></Divider>
                 </Center>
-                <CodeSlash
-                  _hover={{ color: "gray.800" }}
-                  color="#A0AEC0"
-                  boxSize="22px"
-                />
-                <Link45deg
-                  _hover={{ fill: "gray.800" }}
-                  fill="#A0AEC0"
-                  boxSize="22px"
-                />
-                <CardImage
-                  _hover={{ fill: "gray.800" }}
-                  fill="#A0AEC0"
-                  boxSize="22px"
-                />
+                <CodeSlashButton />
+                <Link45degButton />
+                <CardImageButton />
                 <Center height="25px">
                   <Divider orientation="vertical"></Divider>
                 </Center>
                 {expand ? (
-                  <ArrowsAngleContract
-                    _hover={{ color: "gray.800" }}
-                    color="#A0AEC0"
-                    boxSize="22px"
-                    onClick={() => setExpand(false)}
-                  />
+                  <AngleContractButton expand_state={false} />
                 ) : (
-                  <ArrowsAngleExpand
-                    _hover={{ color: "gray.800" }}
-                    color="#A0AEC0"
-                    boxSize="22px"
-                    onClick={() => setExpand(true)}
-                  />
+                  <AngleExpandButton expand_state={true} />
                 )}
-                <CloudUpload
-                  _hover={{ fill: "gray.800" }}
-                  fill="#A0AEC0"
-                  boxSize="22px"
-                />
-              </HStack>
+                <CloudUploadButton />
+              </ButtonGroup>
             </Box>
             <Box pl={4}>
               <Slate
