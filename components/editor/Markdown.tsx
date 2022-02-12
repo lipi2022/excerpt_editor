@@ -27,6 +27,7 @@ import {
   Button,
   Stack,
   Center,
+  Container,
 } from "@chakra-ui/react";
 import {
   BlockquoteLeft,
@@ -37,6 +38,9 @@ import {
   Link45deg,
   CardImage,
   ListOl,
+  ArrowsAngleContract,
+  ArrowsAngleExpand,
+  CloudUpload,
 } from "@chakra-icons/bootstrap";
 
 const SHORTCUTS = {
@@ -55,6 +59,7 @@ const SHORTCUTS = {
 const Markdown = () => {
   const [value, setValue] = useState<Descendant[]>(initialValue);
   const renderElement = useCallback((props) => <Element {...props} />, []);
+  const [expand, setExpand] = useState(true);
 
   const [editor] = useState(() =>
     withShortcuts(withReact(withHistory(createEditor())))
@@ -66,98 +71,134 @@ const Markdown = () => {
 
   return (
     <>
-      <Box backgroundColor="white">
-        <Box pb={2}>
-          <HStack
-            backgroundColor="gray.50"
-            pl={4}
-            pb={2}
-            pt={2}
-            m={0}
-            spacing={4}
-            minH={12}
+      <Box minHeight="100vh" backgroundColor="gray.200">
+        <Container
+          pt={148}
+          maxW={expand ? 800 : 590}
+          height="100vh"
+          centerContent
+        >
+          <Box
+            backgroundColor="white"
+            minH={expand ? 600 : 250}
+            width={expand ? 800 : 590}
+            boxShadow={{ base: "none", sm: "md" }}
+            borderRadius={{ base: "none", sm: "md" }}
           >
-            <Select
-              placeholder="Paragraph"
-              width="110px"
-              variant="unstyled"
-              color="#A0AEC0"
-              _hover={{ color: "gray.800" }}
-            >
-              <option value="Paragraph">Paragraph</option>
-              <option value="Heading 1">Heading 1</option>
-              <option value="Heading 2">Heading 2</option>
-              <option value="Heading 3">Heading 3</option>
-              <option value="Heading 4">Heading 4</option>
-              <option value="Heading 5">Heading 5</option>
-            </Select>
-            <Center height="25px">
-              <Divider orientation="vertical"></Divider>
-            </Center>
-            <TypeBold
-              _hover={{ color: "gray.800" }}
-              color="#A0AEC0"
-              boxSize="22px"
-            />
-            <TypeItalic
-              _hover={{ color: "gray.800" }}
-              color="#A0AEC0"
-              boxSize="22px"
-            />
-            <Center height="25px">
-              <Divider orientation="vertical"></Divider>
-            </Center>
-            <BlockquoteLeft
-              _hover={{ color: "gray.800" }}
-              color="#A0AEC0"
-              boxSize="22px"
-            />
-            <ListOl
-              _hover={{ fill: "gray.800" }}
-              fill="#A0AEC0"
-              boxSize="22px"
-            />
-            <ListUl
-              _hover={{ color: "gray.800" }}
-              color="#A0AEC0"
-              boxSize="22px"
-            />
-            <Center height="25px">
-              <Divider orientation="vertical"></Divider>
-            </Center>
-            <CodeSlash
-              _hover={{ color: "gray.800" }}
-              color="#A0AEC0"
-              boxSize="22px"
-            />
-
-            <Link45deg
-              _hover={{ fill: "gray.800" }}
-              fill="#A0AEC0"
-              boxSize="22px"
-            />
-
-            <CardImage
-              _hover={{ fill: "gray.800" }}
-              fill="#A0AEC0"
-              boxSize="22px"
-            />
-          </HStack>
-        </Box>
-        <Box pl={4}>
-          <Slate
-            editor={editor}
-            value={value}
-            onChange={(value) => setValue(value)}
-          >
-            <Editable
-              renderElement={renderElement}
-              placeholder="Write some markdown..."
-              spellCheck
-              autoFocus
-            />
-          </Slate>
-        </Box>
+            <Box pb={2}>
+              <HStack
+                backgroundColor="gray.50"
+                pl={4}
+                pb={2}
+                pt={2}
+                m={0}
+                spacing={4}
+                minH={12}
+              >
+                <Select
+                  placeholder="Paragraph"
+                  width="110px"
+                  variant="unstyled"
+                  color="#A0AEC0"
+                  _hover={{ color: "gray.800" }}
+                >
+                  <option value="Paragraph">Paragraph</option>
+                  <option value="Heading 1">Heading 1</option>
+                  <option value="Heading 2">Heading 2</option>
+                  <option value="Heading 3">Heading 3</option>
+                  <option value="Heading 4">Heading 4</option>
+                  <option value="Heading 5">Heading 5</option>
+                </Select>
+                <Center height="25px">
+                  <Divider orientation="vertical"></Divider>
+                </Center>
+                <TypeBold
+                  _hover={{ color: "gray.800" }}
+                  color="#A0AEC0"
+                  boxSize="22px"
+                />
+                <TypeItalic
+                  _hover={{ color: "gray.800" }}
+                  color="#A0AEC0"
+                  boxSize="22px"
+                />
+                <Center height="25px">
+                  <Divider orientation="vertical"></Divider>
+                </Center>
+                <BlockquoteLeft
+                  _hover={{ color: "gray.800" }}
+                  color="#A0AEC0"
+                  boxSize="22px"
+                />
+                <ListOl
+                  _hover={{ fill: "gray.800" }}
+                  fill="#A0AEC0"
+                  boxSize="22px"
+                />
+                <ListUl
+                  _hover={{ color: "gray.800" }}
+                  color="#A0AEC0"
+                  boxSize="22px"
+                />
+                <Center height="25px">
+                  <Divider orientation="vertical"></Divider>
+                </Center>
+                <CodeSlash
+                  _hover={{ color: "gray.800" }}
+                  color="#A0AEC0"
+                  boxSize="22px"
+                />
+                <Link45deg
+                  _hover={{ fill: "gray.800" }}
+                  fill="#A0AEC0"
+                  boxSize="22px"
+                />
+                <CardImage
+                  _hover={{ fill: "gray.800" }}
+                  fill="#A0AEC0"
+                  boxSize="22px"
+                />
+                <Center height="25px">
+                  <Divider orientation="vertical"></Divider>
+                </Center>
+                {expand ? (
+                  <ArrowsAngleContract
+                    _hover={{ color: "gray.800" }}
+                    color="#A0AEC0"
+                    boxSize="22px"
+                    onClick={() => setExpand(false)}
+                  />
+                ) : (
+                  <ArrowsAngleExpand
+                    _hover={{ color: "gray.800" }}
+                    color="#A0AEC0"
+                    boxSize="22px"
+                    onClick={() => setExpand(true)}
+                  />
+                )}
+                <CloudUpload
+                  _hover={{ fill: "gray.800" }}
+                  fill="#A0AEC0"
+                  boxSize="22px"
+                />
+              </HStack>
+            </Box>
+            <Box pl={4}>
+              <Slate
+                editor={editor}
+                value={value}
+                onChange={(value) => setValue(value)}
+              >
+                <Editable
+                  renderElement={renderElement}
+                  placeholder="Write some markdown..."
+                  spellCheck
+                  autoFocus
+                />
+              </Slate>
+            </Box>
+          </Box>
+        </Container>
       </Box>
     </>
   );
@@ -257,7 +298,6 @@ const withShortcuts = (editor) => {
 const Element = ({ attributes, children, element }) => {
   switch (element.type) {
     case "block-quote":
-      // todo: should define block quote attributes
       return (
         <Text
           backgroundColor="gray.50"
