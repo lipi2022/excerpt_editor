@@ -132,7 +132,7 @@ const Markdown = () => {
           event.preventDefault();
           toggleMark(editor, "Bold");
         }}
-        icon={<TypeBold boxSize="22px"></TypeBold>}
+        icon={<TypeBold boxSize="20px"></TypeBold>}
         _active={{ color: "gray.800" }}
         color="gray.400"
       ></IconButton>
@@ -148,7 +148,7 @@ const Markdown = () => {
           event.preventDefault();
           toggleMark(editor, "Italic");
         }}
-        icon={<TypeItalic boxSize="22px"></TypeItalic>}
+        icon={<TypeItalic boxSize="20px"></TypeItalic>}
         _active={{ color: "gray.800" }}
         color="gray.400"
       ></IconButton>
@@ -164,7 +164,7 @@ const Markdown = () => {
           event.preventDefault();
           toggleMark(editor, "block_quote_left");
         }}
-        icon={<BlockquoteLeft boxSize="22px"></BlockquoteLeft>}
+        icon={<BlockquoteLeft boxSize="20px"></BlockquoteLeft>}
         _active={{ color: "gray.800" }}
         color="gray.400"
       ></IconButton>
@@ -180,7 +180,7 @@ const Markdown = () => {
           event.preventDefault();
           toggleMark(editor, "list_ol");
         }}
-        icon={<BlockquoteLeft boxSize="22px"></BlockquoteLeft>}
+        icon={<BlockquoteLeft boxSize="20px"></BlockquoteLeft>}
         color="gray.400"
         _active={{ color: "gray.800" }}
       ></IconButton>
@@ -195,7 +195,7 @@ const Markdown = () => {
           event.preventDefault();
           toggleMark(editor, "list_ul");
         }}
-        icon={<BlockquoteLeft boxSize="22px"></BlockquoteLeft>}
+        icon={<BlockquoteLeft boxSize="20px"></BlockquoteLeft>}
         color="gray.400"
         _active={{ color: "gray.800" }}
       ></IconButton>
@@ -210,7 +210,7 @@ const Markdown = () => {
           event.preventDefault();
           toggleMark(editor, "code_slash");
         }}
-        icon={<CodeSlash boxSize="22px"></CodeSlash>}
+        icon={<CodeSlash boxSize="20px"></CodeSlash>}
         color="gray.400"
         _active={{ color: "gray.800" }}
       ></IconButton>
@@ -229,7 +229,7 @@ const Markdown = () => {
           <Link45deg
             fill="gray.400"
             // _hover={{ fill: "gray.800" }}
-            boxSize="22px"
+            boxSize="20px"
           ></Link45deg>
         }
         color="gray.400"
@@ -250,7 +250,7 @@ const Markdown = () => {
           <CardImage
             fill="gray.400"
             // _hover={{ fill: "gray.800" }}
-            boxSize="22px"
+            boxSize="20px"
           ></CardImage>
         }
         color="gray.400"
@@ -267,7 +267,7 @@ const Markdown = () => {
           event.preventDefault();
           toggleMark(editor, "cloud_upload");
         }}
-        icon={<CloudUpload fill="gray.400" boxSize="22px"></CloudUpload>}
+        icon={<CloudUpload fill="gray.400" boxSize="18px"></CloudUpload>}
         color="gray.400"
         // _active={{ color: "gray.800" }}
       ></IconButton>
@@ -288,7 +288,7 @@ const Markdown = () => {
           toggleMark(editor, "angle_contract");
         }}
         onClick={() => setExpand(expand_state)}
-        icon={<ArrowsAngleContract boxSize="22px"></ArrowsAngleContract>}
+        icon={<ArrowsAngleContract boxSize="18px"></ArrowsAngleContract>}
         color="gray.400"
       ></IconButton>
     );
@@ -304,7 +304,7 @@ const Markdown = () => {
           toggleMark(editor, "angle_expand");
         }}
         onClick={() => setExpand(expand_state)}
-        icon={<ArrowsAngleExpand boxSize="22px"></ArrowsAngleExpand>}
+        icon={<ArrowsAngleExpand boxSize="18px"></ArrowsAngleExpand>}
         color="gray.400"
       ></IconButton>
     );
@@ -313,79 +313,97 @@ const Markdown = () => {
   return (
     <>
       <Box minHeight="100vh" backgroundColor="gray.200">
-        <Container
-          pt={148}
-          maxW={expand ? 800 : 590}
-          height="100vh"
-          centerContent
-        >
+        <Center pt={148}>
           <Box
             backgroundColor="white"
-            minH={expand ? 600 : 250}
-            width={expand ? 800 : 590}
-            boxShadow={{ base: "none", sm: "md" }}
-            borderRadius={{ base: "none", sm: "md" }}
+            height={expand ? 600 : 250}
+            width={expand ? 800 : 600}
+            boxShadow={{ base: "sm", sm: "md" }}
+            borderRadius={{ base: "sm", sm: "md" }}
           >
-            <Box pb={2}>
-              <ButtonGroup
+            <VStack pb={2} align="stretch" alignItems="center" height="100%">
+              <Box
                 backgroundColor="gray.50"
-                size="sm"
-                // isAttached
-                pl={4}
-                pb={2}
-                pt={2}
-                minH={12}
-                width={expand ? 800 : 590}
-                variant="ghost"
-                spacing={2}
+                width="100%"
+                height="60px"
+                boxShadow={{ base: "sm", sm: "md" }}
               >
-                <SelectDropdown></SelectDropdown>
+                <ButtonGroup
+                  // backgroundColor="gray.50"
+                  // size="sm"
+                  // isAttached
+                  pl={4}
+                  // pb={1}
+                  // pt={1}
+                  // pr={4}
+                  // minH={2}
+                  width={expand ? 800 : 590}
+                  variant="ghost"
+                  // spacing={2}
+                >
+                  <Center>
+                    <SelectDropdown></SelectDropdown>
+                  </Center>
 
-                <Center height="25px">
-                  <Divider orientation="vertical"></Divider>
-                </Center>
-                <BoldButton></BoldButton>
-                <ItalicButton></ItalicButton>
+                  <Center>
+                    <Divider orientation="vertical"></Divider>
+                  </Center>
+                  <ButtonGroup variant="ghost" isAttached>
+                    <BoldButton></BoldButton>
+                    <ItalicButton></ItalicButton>
+                  </ButtonGroup>
 
-                <Center height="25px">
-                  <Divider orientation="vertical"></Divider>
-                </Center>
-                <BlockquoteLeftButton />
-                <ListOlButton />
-                <ListUlButton />
-                <Center height="25px">
-                  <Divider orientation="vertical"></Divider>
-                </Center>
-                <CodeSlashButton />
-                <Link45degButton />
-                <CardImageButton />
-                <Center height="25px">
-                  <Divider orientation="vertical"></Divider>
-                </Center>
-                {expand ? (
-                  <AngleContractButton expand_state={false} />
-                ) : (
-                  <AngleExpandButton expand_state={true} />
-                )}
-                <CloudUploadButton />
-              </ButtonGroup>
-            </Box>
-            <Box pl={4}>
-              <Slate
-                editor={editor}
-                value={value}
-                onChange={(value) => setValue(value)}
-              >
-                <Editable
-                  renderElement={renderElement}
-                  placeholder="Write some markdown..."
-                  spellCheck
-                  autoFocus
-                />
-              </Slate>
-            </Box>
+                  <Center>
+                    <Divider orientation="vertical"></Divider>
+                  </Center>
+
+                  <ButtonGroup variant="ghost" minH={2} isAttached>
+                    <BlockquoteLeftButton />
+                    <ListOlButton />
+                    <ListUlButton />
+                  </ButtonGroup>
+
+                  <Center>
+                    <Divider orientation="vertical"></Divider>
+                  </Center>
+
+                  <ButtonGroup variant="ghost" isAttached>
+                    <CodeSlashButton />
+                    <Link45degButton />
+                    <CardImageButton />
+                  </ButtonGroup>
+
+                  <Center>
+                    <Divider orientation="vertical"></Divider>
+                  </Center>
+
+                  <ButtonGroup variant="ghost" isAttached>
+                    {expand ? (
+                      <AngleContractButton expand_state={false} />
+                    ) : (
+                      <AngleExpandButton expand_state={true} />
+                    )}
+                    <CloudUploadButton />
+                  </ButtonGroup>
+                </ButtonGroup>
+              </Box>
+              <Box pl={4} width="100%" backgroundColor="white" height="100%">
+                <Slate
+                  editor={editor}
+                  value={value}
+                  onChange={(value) => setValue(value)}
+                >
+                  <Editable
+                    renderElement={renderElement}
+                    placeholder="Write some markdown..."
+                    spellCheck
+                    autoFocus
+                  />
+                </Slate>
+              </Box>
+            </VStack>
           </Box>
-        </Container>
+        </Center>
       </Box>
     </>
   );
