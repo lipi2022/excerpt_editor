@@ -31,6 +31,7 @@ import {
   useSlider,
   IconButton,
   ButtonGroup,
+  Code,
 } from "@chakra-ui/react";
 import {
   BlockquoteLeft,
@@ -59,18 +60,34 @@ const SHORTCUTS = {
   "######": "heading-six",
 };
 
-// const BlockButton = ({ format, icon }) => {
-//   const editor = useSlate();
-//   return (
-//     <TypeBold
-//       active={isBlockActive(editor, format)}
-//       onMouseDown={(event) => {
-//         event.preventDefault();
-//         toggleBlock(editor, format);
-//       }}
-//     ></TypeBold>
-//   );
-// };
+const HOTKEYS = {
+  "mod+b": "bold",
+  "mod+i": "italic",
+  "mod+u": "underline",
+  "mod+`": "code",
+};
+
+const LIST_TYPES = ["numbered-list", "bulleted-list"];
+
+const Leaf = ({ attributes, children, leaf }) => {
+  if (leaf.bold) {
+    children = <strong>{children}</strong>;
+  }
+
+  if (leaf.code) {
+    children = <Code>{children}</Code>;
+  }
+
+  if (leaf.italic) {
+    children = <em>{children}</em>;
+  }
+
+  if (leaf.underline) {
+    children = <u>{children}</u>;
+  }
+
+  return <span {...attributes}>{children}</span>;
+};
 
 const ToolbarClick = (format_name: string) => {
   console.log(format_name);
@@ -79,6 +96,42 @@ const ToolbarClick = (format_name: string) => {
 const isMarkActive = (editor, format) => {
   const marks = Editor.marks(editor);
   return marks ? marks[format] === true : false;
+};
+const isBlockActive = (editor, format) => {
+  const { selection } = editor;
+  if (!selection) return false;
+
+  const [match] = Array.from(
+    Editor.nodes(editor, {
+      at: Editor.unhangRange(editor, selection),
+      match: (n) =>
+        !Editor.isEditor(n) && SlateElement.isElement(n) && n.type === format,
+    })
+  );
+
+  return !!match;
+};
+
+const toggleBlock = (editor, format) => {
+  const isActive = isBlockActive(editor, format);
+  const isList = LIST_TYPES.includes(format);
+
+  Transforms.unwrapNodes(editor, {
+    match: (n) =>
+      !Editor.isEditor(n) &&
+      SlateElement.isElement(n) &&
+      LIST_TYPES.includes(n.type),
+    split: true,
+  });
+  const newProperties: Partial<SlateElement> = {
+    type: isActive ? "paragraph" : isList ? "list-item" : format,
+  };
+  Transforms.setNodes<SlateElement>(editor, newProperties);
+
+  if (!isActive && isList) {
+    const block = { type: format, children: [] };
+    Transforms.wrapNodes(editor, block);
+  }
 };
 
 const toggleMark = (editor, format) => {
@@ -95,6 +148,7 @@ const Markdown = () => {
   const [value, setValue] = useState<Descendant[]>(initialValue);
   const renderElement = useCallback((props) => <Element {...props} />, []);
   const [expand, setExpand] = useState(false);
+  const renderLeaf = useCallback((props) => <Leaf {...props} />, []);
 
   const [editor] = useState(() =>
     withShortcuts(withReact(withHistory(createEditor())))
@@ -326,7 +380,8 @@ const Markdown = () => {
                 backgroundColor="gray.50"
                 width="100%"
                 height="60px"
-                boxShadow={{ base: "sm", sm: "md" }}
+                borderBottom="1px"
+                borderBottomColor="gray.200"
               >
                 <ButtonGroup
                   // backgroundColor="gray.50"
@@ -395,9 +450,19 @@ const Markdown = () => {
                 >
                   <Editable
                     renderElement={renderElement}
+                    renderLeaf={renderLeaf}
                     placeholder="Write some markdown..."
                     spellCheck
                     autoFocus
+                    onKeyDown={(event) => {
+                      for (const hotkey in HOTKEYS) {
+                        if (isHotkey(hotkey, event as any)) {
+                          event.preventDefault();
+                          const mark = HOTKEYS[hotkey];
+                          toggleMark(editor, mark);
+                        }
+                      }
+                    }}
                   />
                 </Slate>
               </Box>
