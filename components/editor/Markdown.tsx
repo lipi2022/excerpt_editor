@@ -1,5 +1,6 @@
 import React, { useState, useCallback, useMemo } from "react";
 import { Slate, Editable, withReact, useSlate } from "slate-react";
+import isHotkey from "is-hotkey";
 import {
   Editor,
   Transforms,
@@ -46,19 +47,6 @@ import {
   ArrowsAngleExpand,
   CloudUpload,
 } from "@chakra-icons/bootstrap";
-
-const SHORTCUTS = {
-  "*": "list-item",
-  "-": "list-item",
-  "+": "list-item",
-  ">": "block-quote",
-  "#": "heading-one",
-  "##": "heading-two",
-  "###": "heading-three",
-  "####": "heading-four",
-  "#####": "heading-five",
-  "######": "heading-six",
-};
 
 const HOTKEYS = {
   "mod+b": "bold",
@@ -149,10 +137,9 @@ const Markdown = () => {
   const renderElement = useCallback((props) => <Element {...props} />, []);
   const [expand, setExpand] = useState(false);
   const renderLeaf = useCallback((props) => <Leaf {...props} />, []);
+  const [selectValue, setSelectValue] = useState("Paragraph");
 
-  const [editor] = useState(() =>
-    withShortcuts(withReact(withHistory(createEditor())))
-  );
+  const [editor] = useState(() => withReact(withHistory(createEditor())));
   // const editor = useMemo(
   //   () => withShortcuts(withReact(withHistory(createEditor()))),
   //   []
@@ -165,7 +152,8 @@ const Markdown = () => {
         variant="unstyled"
         color="gray.400"
         _hover={{ color: "gray.800" }}
-        onChange={(e) => ToolbarClick(e.target.value)}
+        value={selectValue}
+        onChange={(e) => isBlockActive(editor, e.target.value)}
       >
         <option value="Paragraph">Paragraph</option>
         <option value="Heading 1">Heading 1</option>
@@ -472,97 +460,6 @@ const Markdown = () => {
       </Box>
     </>
   );
-};
-
-const withShortcuts = (editor) => {
-  const { deleteBackward, insertText } = editor;
-
-  editor.insertText = (text) => {
-    const { selection } = editor;
-
-    if (text === " " && selection && Range.isCollapsed(selection)) {
-      const { anchor } = selection;
-      const block = Editor.above(editor, {
-        match: (n) => Editor.isBlock(editor, n),
-      });
-      const path = block ? block[1] : [];
-      const start = Editor.start(editor, path);
-      const range = { anchor, focus: start };
-      const beforeText = Editor.string(editor, range);
-      const type = SHORTCUTS[beforeText];
-
-      if (type) {
-        Transforms.select(editor, range);
-        Transforms.delete(editor);
-        const newProperties: Partial<SlateElement> = {
-          type,
-        };
-        Transforms.setNodes<SlateElement>(editor, newProperties, {
-          match: (n) => Editor.isBlock(editor, n),
-        });
-
-        if (type === "list-item") {
-          const list: BulletedListElement = {
-            type: "bulleted-list",
-            children: [],
-          };
-          Transforms.wrapNodes(editor, list, {
-            match: (n) =>
-              !Editor.isEditor(n) &&
-              SlateElement.isElement(n) &&
-              n.type === "list-item",
-          });
-        }
-
-        return;
-      }
-    }
-
-    insertText(text);
-  };
-
-  editor.deleteBackward = (...args) => {
-    const { selection } = editor;
-
-    if (selection && Range.isCollapsed(selection)) {
-      const match = Editor.above(editor, {
-        match: (n) => Editor.isBlock(editor, n),
-      });
-
-      if (match) {
-        const [block, path] = match;
-        const start = Editor.start(editor, path);
-
-        if (
-          !Editor.isEditor(block) &&
-          SlateElement.isElement(block) &&
-          block.type !== "paragraph" &&
-          Point.equals(selection.anchor, start)
-        ) {
-          const newProperties: Partial<SlateElement> = {
-            type: "paragraph",
-          };
-          Transforms.setNodes(editor, newProperties);
-
-          if (block.type === "list-item") {
-            Transforms.unwrapNodes(editor, {
-              match: (n) =>
-                !Editor.isEditor(n) &&
-                SlateElement.isElement(n) &&
-                n.type === "bulleted-list",
-              split: true,
-            });
-          }
-
-          return;
-        }
-      }
-
-      deleteBackward(...args);
-    }
-  };
-
-  return editor;
 };
 
 const Element = ({ attributes, children, element }) => {
